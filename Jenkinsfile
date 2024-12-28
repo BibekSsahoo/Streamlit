@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage{
             steps{
-                sh 'docker rm -f $(docker ps -aq)
+                sh 'docker rm -f $(docker ps -aq)'
             }
         }
         stage{
