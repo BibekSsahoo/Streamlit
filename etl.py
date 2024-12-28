@@ -1,9 +1,9 @@
 import streamlit as st
-import pandas as pd
+#import pandas as pd
 
-data = {
+'''data = {
     'task':['Extract','Transfermation', 'Load'],
-    'status':['Completed','Inprogress','Pending']}
+    'status':['Completed','Inprogress','Pending']}'''
 
-df=pd.DataFrame(data)
-st.write('ABHISHEK BHOSDIWALA',df)
+#df=pd.DataFrame(data)
+st.write('HARSHIT RATHORE')
