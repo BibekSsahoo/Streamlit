@@ -6,4 +6,4 @@ data = {
     'status':['Completed','Inprogress','Pending']}
 
 df=pd.DataFrame(data)
-st.write('ETL PIPELINE EXECUTION STATUS:sajdfaghfvadgfvadgfadv',df)
+st.write('ETL PIPELINE EXECUTION STATUS:',df)
