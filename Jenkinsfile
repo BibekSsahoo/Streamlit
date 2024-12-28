@@ -1,14 +1,9 @@
 pipeline {
     agent any
-    stages {
+    stages{
         stage("checkout Code") {
             steps {
-                git url:'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
-            }
-        }
-        stage("Cleanup Stage") {
-            steps {
-                sh 'docker rm -f $(docker ps -aq)'
+                git url: 'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
             }
         }
         stage("Build Dokcer Image") {
