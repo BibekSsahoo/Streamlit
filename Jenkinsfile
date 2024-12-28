@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("checkout Code") {
             steps {
-                git url:'https://github.com/BibekSsahoo/Streamlit.git' branch: 'main'
+                git url:'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
             }
         }
         stage("Cleanup Stage") {
@@ -11,7 +11,6 @@ pipeline {
                 sh 'docker rm -f $(docker ps -aq)'
             }
         }
-
         stage("Build Dokcer Image") {
             steps {
                 sh 'docker build -t streamlit-app .'
