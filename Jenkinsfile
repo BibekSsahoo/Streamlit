@@ -1,24 +1,46 @@
 pipeline {
     agent any
     stages {
-        stage("checkout Code") {
+        stage('Checkout SCM') {
             steps {
-                git url:'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/BibekSsahoo/Streamlit.git']]])
             }
         }
-        stage("Cleanup Stage") {
+        stage('Checkout Code') {
             steps {
-                sh 'docker rm -f $(docker ps -aq)'
+                git url: 'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
             }
         }
-        stage("Build Dokcer Image") {
+        stage('Cleanup Stage') {
             steps {
-                sh 'docker build -t streamlit-app .'
-            } 
+                script {
+                    def containers = sh(script: "docker ps -aq", returnStdout: true).trim()
+                    if (containers) {
+                        sh "docker rm -f ${containers}"
+                    } else {
+                        echo "No containers to remove"
+                    }
+                }
+            }
         }
-        stage("Run Docker Container") {
+        stage('Build Docker Image') {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
             steps {
-                sh 'docker run -d -p 8501:8501 streamlit-app'
+                // Your steps for building the Docker image
+            }
+        }
+        stage('Run Docker Container') {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                // Your steps for running the Docker container
             }
         }
     }
