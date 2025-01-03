@@ -21,7 +21,7 @@ def transform_users(data):
 
 
 st.title("Collect Data using API")
-st.write("Displaying User Details")
+st.write("Display User Details")
 users_data = fetch_users()
 users_df = transform_users(users_data)
 st.write(users_df)
