@@ -11,12 +11,12 @@ pipeline {
                 git url: 'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
             }
         }
-       /*stage('cleanup stage') {
+       stage('cleanup stage') {
             steps {
-                sh 'docker rmi -f myimage'
+                #sh 'docker rmi -f myimage'
                 sh 'docker rm -f $(docker ps -aq)'
             }
-        }*/
+        }
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t myapp .'
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DockerHub_Cred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                    sh 'docker tag myimage $DOCKER_USERNAME/myapp'
+                    sh 'docker tag mmyrepo $DOCKER_USERNAME/myapp'
                     sh 'docker push $DOCKER_USERNAME/myapp'
                 }
                    
