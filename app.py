@@ -20,7 +20,7 @@ def transform_users(data):
     return pd.DataFrame(users)
 
 
-st.title("Collect DATA using API")
+st.title("Collect Data using API")
 st.write("Display User Details")
 users_data = fetch_users()
 users_df = transform_users(users_data)
