@@ -1,24 +1,40 @@
 pipeline {
-    agent any
-    stages{
-        stage("checkout Code") {
+    agent {
+        node {
+            label 'JenkinsSlaveNodeLabel'
+        }
+    }
+    
+    stages {
+        stage('Checkout code') {
             steps {
                 git url: 'https://github.com/BibekSsahoo/Streamlit.git', branch: 'main'
             }
         }
-        stage("Cleanup Stage") {
+       /*stage('cleanup stage') {
             steps {
+                sh 'docker rmi -f myimage'
                 sh 'docker rm -f $(docker ps -aq)'
             }
-        }
-        stage("Build Dokcer Image") {
+        }*/
+        stage('Build Docker Image') {
             steps {
-                sh 'docker build -t streamlit-app .'
-            } 
+                sh 'docker build -t MYAPP .'
+            }
         }
-        stage("Run Docker Container") {
+       stage('Build and Push Image') {
             steps {
-                sh 'docker run -d -p 8501:8501 streamlit-app'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    sh 'docker tag myimage $bibekssahoo/MYAPP'
+                    sh 'docker push $bibekssaho/MYAPP'
+                }
+                   
+            }
+        }
+        stage('Deploy application to kubernetes') {
+            steps {
+                sh 'kubectl apply -f my-deployment.yml'
             }
         }
     }
